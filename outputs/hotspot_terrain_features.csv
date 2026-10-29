@@ -1,0 +1,13 @@
+id,name,lat,lon,kind,coord_source,upstream_km2,twi,depression_m,hand_m,tpi300_m,tpi1000_m,terrain_score,elev_m,slope_deg,upstream_km2_pctl,twi_pctl,depression_m_pctl,hand_m_pctl,tpi300_m_pctl,tpi1000_m_pctl,terrain_score_pctl,catchment_km2,snap_dist_m
+silk_board,Silk Board Junction,12.917,77.623,junction,approx - confirm with GPS on site,46.742,19.003,1.561,0.0,-3.513,-8.896,82.719,882.624,2.078,98.2,96.8,79.7,75.2,56.0,79.3,93.8,46.743,186.1
+hebbal,Hebbal flyover junction,13.036,77.597,junction,approx - confirm with GPS on site,0.076,11.526,1.193,2.897,-3.34,-4.132,47.178,901.757,0.958,39.5,26.2,72.8,49.3,52.5,46.2,50.2,0.077,182.9
+kadubeesanahalli,Kadubeesanahalli underpass (ORR),12.937,77.697,underpass,approx - confirm with GPS on site,0.056,11.721,4.086,2.311,-5.79,-1.534,52.673,878.074,1.999,29.2,31.5,95.7,53.2,84.2,28.5,58.5,0.062,174.6
+hal_marathahalli,HAL-Marathahalli underpass,12.957,77.701,underpass,approx - confirm with GPS on site,0.075,13.009,1.128,16.769,-6.026,1.081,44.59,890.705,4.927,38.5,56.7,71.2,4.5,85.8,15.2,46.7,0.076,146.3
+kr_circle,KR Circle underpass,12.976,77.587,underpass,approx - confirm with GPS on site,1.041,13.388,6.187,0.0,-7.662,-9.876,83.357,917.292,10.122,82.7,62.3,98.8,75.2,92.7,85.2,94.2,1.057,205.4
+bellandur,Bellandur (ORR stretch),12.926,77.677,low_lying,approx - confirm with GPS on site,0.257,13.36,3.314,6.365,-6.066,-0.684,59.755,881.076,2.09,67.5,62.2,93.3,33.3,86.0,24.8,65.0,0.28,188.7
+madiwala,Madiwala,12.921,77.618,low_lying,approx - confirm with GPS on site,7.363,16.79,2.461,0.0,-4.765,-10.251,85.981,883.757,0.794,92.5,88.8,89.7,75.2,75.3,86.8,96.3,7.364,157.1
+koramangala,Koramangala / Ejipura low area,12.933,77.626,low_lying,approx - confirm with GPS on site,0.557,14.023,3.977,0.0,-7.519,-11.855,84.423,884.53,0.948,77.0,71.8,95.7,75.2,92.3,91.3,95.5,0.557,201.1
+sai_layout,Sai Layout (Horamavu),13.027,77.661,low_lying,approx - confirm with GPS on site,0.093,11.98,0.855,0.0,-3.291,-8.133,56.04,896.278,4.161,45.7,36.5,64.7,68.7,51.3,73.8,61.7,0.094,147.2
+manyata,Manyata Tech Park area,13.048,77.621,low_lying,approx - confirm with GPS on site,141.43,21.702,12.133,0.0,-13.096,-15.435,96.652,883.145,1.198,99.5,99.8,99.8,75.2,99.3,97.2,100.0,141.354,159.2
+kogilu,Kogilu,13.1,77.612,low_lying,approx - confirm with GPS on site,0.072,12.325,0.202,6.204,-1.647,-1.797,33.375,901.839,0.738,37.0,43.3,39.0,34.2,23.8,29.7,26.7,0.162,188.1
+mg_road,MG Road / Mahatma Gandhi Circle,12.977,77.599,junction,GPS from deck photo 19 Oct 2024,0.129,11.896,3.786,3.377,-6.774,-5.138,60.86,914.376,1.738,53.0,35.5,94.8,46.5,90.0,53.8,67.0,0.132,192.6

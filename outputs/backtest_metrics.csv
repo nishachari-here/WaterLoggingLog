@@ -1,0 +1,6 @@
+method,auc,auc_ci,recall@5%FAR,recall@5%FAR_ci,recall@1%FAR,auc_high_conf_only,event_day_spatial_auc
+rain_peak,0.824,0.70-0.91,0.292,0.00-0.52,0.0,0.846,0.445
+rain_total,0.826,0.72-0.91,0.458,0.18-0.75,0.042,0.84,0.343
+terrain_only,0.49,0.31-0.63,0.0,0.00-0.00,0.0,0.546,0.423
+terrain_rain,0.815,0.68-0.90,0.208,0.00-0.47,0.0,0.848,0.378
+graph_model,0.835,0.71-0.92,0.333,0.08-0.58,0.0,0.856,0.523

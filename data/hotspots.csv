@@ -1,0 +1,13 @@
+id,name,lat,lon,kind,coord_source
+silk_board,Silk Board Junction,12.9172,77.6228,junction,approx - confirm with GPS on site
+hebbal,Hebbal flyover junction,13.0359,77.5970,junction,approx - confirm with GPS on site
+kadubeesanahalli,Kadubeesanahalli underpass (ORR),12.9367,77.6968,underpass,approx - confirm with GPS on site
+hal_marathahalli,HAL-Marathahalli underpass,12.9569,77.7011,underpass,approx - confirm with GPS on site
+kr_circle,KR Circle underpass,12.9757,77.5870,underpass,approx - confirm with GPS on site
+bellandur,Bellandur (ORR stretch),12.9257,77.6766,low_lying,approx - confirm with GPS on site
+madiwala,Madiwala,12.9210,77.6185,low_lying,approx - confirm with GPS on site
+koramangala,Koramangala / Ejipura low area,12.9330,77.6265,low_lying,approx - confirm with GPS on site
+sai_layout,Sai Layout (Horamavu),13.0268,77.6610,low_lying,approx - confirm with GPS on site
+manyata,Manyata Tech Park area,13.0475,77.6206,low_lying,approx - confirm with GPS on site
+kogilu,Kogilu,13.0995,77.6125,low_lying,approx - confirm with GPS on site
+mg_road,MG Road / Mahatma Gandhi Circle,12.976784,77.599245,junction,GPS from deck photo 19 Oct 2024

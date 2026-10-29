@@ -1,0 +1,25 @@
+date,hotspot_id,evidence,confidence,source
+2022-09-05,bellandur,ORR at Bellandur flooded after overnight 131 mm; Halanayakanahalli lake overflow,high,https://www.deccanherald.com/city/traffic-at-a-standstill-as-bengaluru-inundated-amid-heavy-rains-poor-infrastructure-in-focus-1142277.html
+2022-09-05,hal_marathahalli,Marathahalli ORR under water (area report not the underpass itself),medium,https://www.thenewsminute.com/article/bengaluru-flooded-again-after-rains-marathahalli-orr-under-water-167535
+2022-10-20,bellandur,Waterlogging reported night of 19 Oct (The Hindu repost),high,https://webjosh.com/article/heavy-rain-batters-bengaluru-roads-flooded-and-vehicles-damaged-yellow-alert-continues-1666262240-16752
+2022-10-20,madiwala,Waterlogging reported night of 19 Oct (The Hindu repost),high,https://webjosh.com/article/heavy-rain-batters-bengaluru-roads-flooded-and-vehicles-damaged-yellow-alert-continues-1666262240-16752
+2022-10-20,silk_board,Waterlogging reported night of 19 Oct (The Hindu repost),high,https://webjosh.com/article/heavy-rain-batters-bengaluru-roads-flooded-and-vehicles-damaged-yellow-alert-continues-1666262240-16752
+2022-10-20,koramangala,Waterlogging reported night of 19 Oct (The Hindu repost),high,https://webjosh.com/article/heavy-rain-batters-bengaluru-roads-flooded-and-vehicles-damaged-yellow-alert-continues-1666262240-16752
+2023-05-21,kr_circle,Underpass flooded neck-deep; car submerged; one death,high,https://www.businesstoday.in/latest/in-focus/story/bengaluru-woman-dies-after-car-gets-stuck-in-flooded-underpass-382182-2023-05-21
+2023-06-13,hal_marathahalli,Underpass waterlogged; two cars stuck (rain night of 12 Jun),high,https://www.thenewsminute.com/karnataka/bengaluru-experiences-waterlogging-again-after-several-hours-rain-178434
+2023-06-13,kadubeesanahalli,Underpass filled with rainwater (rain night of 12 Jun),high,https://www.thenewsminute.com/karnataka/bengaluru-experiences-waterlogging-again-after-several-hours-rain-178434
+2023-09-05,hebbal,Hebbal flyover waterlogged after Tuesday evening downpour,medium,https://www.deccanherald.com/india/karnataka/bengaluru/tuesday-evening-downpour-further-reduces-citys-rain-deficit-2674426
+2023-11-07,hebbal,Waterlogging at Hebbal circle after wettest November day since 2015,high,https://www.newsbytesapp.com/news/india/torrential-rains-in-bengaluru-cause-waterlogged-roads-traffic-woes/story
+2023-11-07,silk_board,Knee-deep water at Silk Board junction,high,https://www.newsbytesapp.com/news/india/torrential-rains-in-bengaluru-cause-waterlogged-roads-traffic-woes/story
+2024-08-12,silk_board,Roads submerged up to two feet; manholes overflowing,high,https://thesouthfirst.com/karnataka/overnight-rains-cause-widespread-waterlogging-in-bengaluru-traffic-advisory-issued/
+2024-08-12,hebbal,Waterlogging on both Hebbal flyover ramps,high,https://thesouthfirst.com/karnataka/overnight-rains-cause-widespread-waterlogging-in-bengaluru-traffic-advisory-issued/
+2024-10-07,kogilu,Kendriya Vihar (near Kogilu Cross) basement flooded ~4 ft after wall collapse,medium,https://www.deccanherald.com/amp/story/india%2Fkarnataka%2Fbengaluru%2Fcompound-wall-of-yelahanka-apartment-complex-collapses-after-heavy-rains-3221832
+2024-10-15,manyata,Manyata Tech Park flooded ('Manyata Tech Falls'),high,https://thenewsminute.com/amp/story/karnataka/bengaluru-manyata-tech-park-reacts-to-viral-video-denies-waterfall-claims
+2024-10-16,kogilu,Kendriya Vihar ~3 ft water; tractors evacuate residents,medium,https://deccanherald.com/amp/story/india%2Fkarnataka%2Fbengaluru%2Fbbmp-deploys-two-tractors-to-evacuate-kendriya-vihar-residents-3234395
+2024-10-20,silk_board,Silk Board flooded as Madiwala lake overflowed,medium,https://webjosh.com/article/early-morning-rains-flood-bengaluru-roads-and-apartments-1729402858-14817
+2024-10-20,madiwala,Madiwala lake overflow flooding towards Silk Board,medium,https://webjosh.com/article/early-morning-rains-flood-bengaluru-roads-and-apartments-1729402858-14817
+2024-10-22,kogilu,Kogilu lake breach; >4 ft in Kendriya Vihar; 186 mm at GKVK,high,https://www.etvbharat.com/en/!state/heavy-rains-flood-bengaluru-enn24102202323
+2025-05-19,silk_board,Stagnant water halts traffic; Hosur Rd closed Silk Board-Rupena Agrahara,high,https://www.deccanherald.com/india/karnataka/bengaluru/flooding-in-many-parts-of-bengaluru-after-torrential-overnight-rain-3546886
+2025-05-19,manyata,Among worst-hit; traffic advisory to avoid,high,https://www.deccanherald.com/india/karnataka/bengaluru/flooding-in-many-parts-of-bengaluru-after-torrential-overnight-rain-3546886
+2025-05-19,sai_layout,Layout submerged; boats used for evacuation,high,https://www.deccanherald.com/india/karnataka/bengaluru/flooding-in-many-parts-of-bengaluru-after-torrential-overnight-rain-3546886
+2025-05-19,madiwala,Waterlogging at Ayyappa underpass on Hosur Road,high,https://www.thenewsminute.com/karnataka/heavy-rains-leave-many-areas-in-bengaluru-inundated-parts-of-hosur-road-closed

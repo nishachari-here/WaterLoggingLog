@@ -1,0 +1,19 @@
+numpy==2.3.5        # pysheds 0.5 still calls np.in1d, removed in numpy 2.4
+scipy==1.18.1
+pandas==3.1.0
+rasterio==1.5.2
+pysheds==0.5
+numba==0.68.1
+geopandas==1.2.0
+shapely==2.2.0
+pyproj==3.8.0
+matplotlib==3.11.2
+folium==0.20.0
+requests==2.34.2
+truststore==0.10.5
+osmnx==2.1.1
+networkx==3.7
+streamlit==1.66.1
+streamlit-folium==0.27.4
+fastapi==0.162.0
+uvicorn==0.54.0
