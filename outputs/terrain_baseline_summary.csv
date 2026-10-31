@@ -1,8 +1,8 @@
 feature,auc_hotspot_vs_control,hotspot_median,control_median
-upstream_km2,0.635,0.193,0.111
-twi,0.593,13.184,12.653
-depression_m,0.829,2.887,0.458
-hand_m,0.607,1.155,2.739
-tpi300_m,0.741,-5.908,-3.218
-tpi1000_m,0.593,-6.635,-4.693
-terrain_score,0.713,60.307,46.905
+upstream_km2,0.568,0.113,0.11
+twi,0.545,12.827,12.653
+depression_m,0.804,2.282,0.448
+hand_m,0.552,2.386,2.711
+tpi300_m,0.644,-4.139,-3.187
+tpi1000_m,0.509,-4.635,-4.729
+terrain_score,0.628,57.898,46.905

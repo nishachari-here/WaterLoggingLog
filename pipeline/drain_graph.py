@@ -6,8 +6,6 @@ it goes next. Cells are merged into segments between junctions (and split every 
 OSM then annotates each segment: is there a mapped drain along it, does it run through a lake,
 and which arterial roads cross it (each crossing is a culvert, the usual blockage point).
 
-Each hotspot is attached as its own node: its drainage cell is traced downstream until it joins
-the network, so every hotspot has a path to an outlet.
 """
 import pickle
 
@@ -18,11 +16,12 @@ import osmnx as ox
 import pandas as pd
 import rasterio
 from pyproj import Transformer
+from scipy.spatial import cKDTree
 from shapely.geometry import LineString
 
 import config
 from pipeline import osm
-from pipeline.hotspots import load_hotspots, snap_cell
+from pipeline.hotspots import load_hotspots
 
 GRAPH_PKL = config.PROCESSED_DIR / "drain_graph.pkl"
 EDGES_GEOJSON = config.OUT_DIR / "drain_graph_edges.geojson"
@@ -82,22 +81,11 @@ def build():
     acc_f, elev_f = acc.ravel(), elev.ravel()
     mask = acc_f > config.STREAM_THRESHOLD_CELLS
 
-    # Attach hotspots: trace each one's drainage cell down until it meets the network.
-    hot = load_hotspots()
-    hot_cell = {}
-    for hs in hot.itertuples():
-        r, c = snap_cell(acc, tf, hs.x, hs.y)
-        cur = r * w + c
-        hot_cell[hs.id] = cur
-        while cur >= 0 and not mask[cur]:
-            mask[cur] = True
-            cur = ds[cur]
-
     cells = np.flatnonzero(mask)
     targets = ds[cells]
     indeg = np.bincount(targets[targets >= 0], minlength=h * w)
     key = cells[(indeg[cells] != 1) | (ds[cells] < 0)]
-    segs, key = _segments(mask, ds, list(key) + list(hot_cell.values()))
+    segs, key = _segments(mask, ds, key)
 
     to_ll = Transformer.from_crs(config.CRS_METRIC, "EPSG:4326", always_xy=True)
 
@@ -113,8 +101,6 @@ def build():
     for i, k in enumerate(key):
         g.add_node(int(k), x=float(kx[i]), y=float(ky[i]), lon=float(klon[i]), lat=float(klat[i]),
                    area_km2=float((acc_f[k] + 1) * config.CELL_SIZE ** 2 / 1e6), elev=float(elev_f[k]))
-    for hid, k in hot_cell.items():
-        g.nodes[int(k)]["hotspot"] = hid
 
     rows = []
     for u, v, path in segs:
@@ -166,16 +152,8 @@ def _annotate(g, edges):
 
 
 def _export(g, edges):
-    """GeoJSON of the main channels (>= 1 km2) plus every segment on a hotspot's path, for the map."""
+    """GeoJSON of the main DEM-derived channels (>= 1 km2)."""
     keep = edges["area_km2"] >= 1.0
-    on_path = set()
-    for n, d in g.nodes(data=True):
-        if "hotspot" in d:
-            for u, v in nx.dfs_edges(g, n):
-                on_path.add((u, v))
-                if g.edges[u, v]["area_km2"] > 50:
-                    break
-    keep |= np.array([(u, v) in on_path for u, v in zip(edges.u, edges.v)])
     out = edges[keep].copy()
     out["culverts"] = out["culverts"].apply(", ".join)
     out["geometry"] = out.simplify(10)
@@ -188,4 +166,11 @@ def load():
 
 
 def hotspot_nodes(g):
-    return {d["hotspot"]: n for n, d in g.nodes(data=True) if "hotspot" in d}
+    """Associate configured sites with existing drainage nodes without changing the graph."""
+    hot = load_hotspots()
+    nodes = [(n, d) for n, d in g.nodes(data=True)]
+    if not nodes:
+        return {}
+    tree = cKDTree([(d["x"], d["y"]) for _, d in nodes])
+    _, nearest = tree.query(hot[["x", "y"]].to_numpy())
+    return {hid: nodes[index][0] for hid, index in zip(hot.id, nearest)}

@@ -11,6 +11,7 @@ python -m venv .venv
 .venv\Scripts\pip install -r requirements.txt
 .venv\Scripts\python run_terrain.py
 .venv\Scripts\python run_network.py
+.venv\Scripts\python run_gnn_graph.py
 .venv\Scripts\python run_backtest.py
 .venv\Scripts\python run_leadtime.py
 .venv\Scripts\python server.py
@@ -29,13 +30,18 @@ python -m venv .venv
 `run_terrain.py` downloads two Copernicus GLO-30 tiles (~80 MB, public AWS bucket, no login) and takes about
 a minute. `run_network.py` pulls OSM roads, drains and lakes through the Overpass API (a few minutes the first
 time, then cached). All of it is free, with no API keys.
+`run_gnn_graph.py` rebuilds the DEM drainage network without adding hand-listed hotspot nodes, downloads
+the full drivable street graph on its first run, and writes a combined typed graph plus node/edge CSVs under
+`data/processed/`. Road nodes within 75 m of drainage nodes get bidirectional spatial connector edges;
+these indicate proximity, not verified culvert or hydraulic connections.
 
 ## Network layer and dashboard
 
 | File | What it does |
 |---|---|
-| `pipeline/osm.py` | Arterial road graph (9.4k junctions), 3k OSM waterways, 3.9k water bodies |
-| `pipeline/drain_graph.py` | Directed drain graph: DEM drainage lines merged into ~3k segments, each tagged with OSM drain overlap, lake, and the roads that cross it (culverts). Each hotspot is a node with a path to its outlet. |
+| `pipeline/osm.py` | Arterial road graph for routing plus a full drivable graph for graph-learning candidates, 3k OSM waterways, 3.9k water bodies |
+| `pipeline/drain_graph.py` | Directed drainage graph: DEM drainage lines merged into segments, each tagged with OSM drain overlap, lake, and the arterial roads that cross it (culverts). Nodes come from the DEM network, not the hotspot CSV. |
+| `pipeline/combined_graph.py` | Namespaced road and drainage nodes, typed edges, proximity connectors and sampled DEM features; exports pickle and CSVs for ML preprocessing. |
 | `pipeline/risk.py` | Rational-method runoff vs capacity per segment, giving a per-hotspot rain threshold, the bottleneck segment (min-cut on the flow tree), what-if blocking, and a "clear these first" ranking. Field log rows override the placeholder capacity. |
 | `pipeline/routing.py` | Red hotspots are 300 m no-go zones and amber ones 200 m slow zones (×4 travel time). Dijkstra on OSMnx/NetworkX gives the usual route and the flood-aware route. |
 | `pipeline/rain.py` | Open-Meteo hourly forecast per hotspot: peak for each of the next four 24 h windows |
@@ -65,17 +71,26 @@ Outputs in `outputs/`:
 - `terrain_baseline_summary.csv`: AUC of each terrain feature at separating hotspots from controls.
 - `hotspot_catchments.geojson`: area draining to each hotspot (the `A` in Q = C·i·A).
 
-## First results (12 hotspots, 600 controls)
+`run_gnn_graph.py` writes `data/processed/gnn_graph.pkl`, `gnn_graph_nodes.csv`, and
+`gnn_graph_edges.csv`. These are a spatial graph and static node features, **not a training dataset**:
+the repository does not yet contain complete time-indexed flood labels or graph-wide rainfall features
+needed to train or validate a spatio-temporal GNN.
+
+## First results (12 original hotspots, 600 controls)
 
 The terrain-only score separates hotspots from random spots with **AUC 0.71**. The strongest single
 features are depression depth (0.83) and local low-spot TPI-300 (0.74). Valley-floor hotspots score
 93–100 (Silk Board, Madiwala, Koramangala, KR Circle, Manyata). **Underpasses do not show up** (HAL–Marathahalli 47,
 Hebbal 50, Kadubeesanahalli 59), because a 30 m surface model cannot see a man-made dip under a road.
 That gap is why we take field measurements, and it is the case for the full model over a terrain-only map.
-With only 12 positives these numbers are indicative, not a result to report as final.
+These results describe the original 12 locations only. The terrain outputs have since been regenerated
+for 18 listed locations; use `outputs/terrain_baseline_summary.csv` for that run's metrics. The six added
+locations are approximate candidates, not field-verified positives. The original metrics are indicative,
+not a result to report as final.
 
 ## Known limits
 
 - Copernicus GLO-30 is a **surface** model (it includes buildings and trees). FABDEM (bare-earth, free for research) is a drop-in upgrade.
 - Hotspot coordinates in `data/hotspots.csv` are approximate apart from MG Road. Replace them with GPS fixes from the field visit.
+- The six newly added candidate locations are provisional monitoring points, not field-verified flood reports; confirm their exact low points and flood history before treating them as validated hotspots.
 - Snapping looks for the highest-accumulation cell within a 150 m square window, so the snap distance can reach ~210 m (see `snap_dist_m`).

@@ -10,6 +10,7 @@ truststore.inject_into_ssl()
 
 OSM_DIR = config.RAW_DIR / "osm"
 ROADS = OSM_DIR / "roads_major.graphml"
+ALL_ROADS = OSM_DIR / "roads_drive.graphml"
 WATERWAYS = OSM_DIR / "waterways.gpkg"
 WATERBODIES = OSM_DIR / "waterbodies.gpkg"
 
@@ -32,6 +33,18 @@ def roads():
     g = ox.add_edge_speeds(g)
     g = ox.add_edge_travel_times(g)
     ox.save_graphml(g, ROADS)
+    return g
+
+
+def all_roads():
+    """Full drivable OSM graph, including local streets, for graph-learning candidates."""
+    if ALL_ROADS.exists():
+        return ox.load_graphml(ALL_ROADS)
+    OSM_DIR.mkdir(parents=True, exist_ok=True)
+    g = ox.graph_from_bbox(_bbox(), network_type="drive")
+    g = ox.add_edge_speeds(g)
+    g = ox.add_edge_travel_times(g)
+    ox.save_graphml(g, ALL_ROADS)
     return g
 
 
