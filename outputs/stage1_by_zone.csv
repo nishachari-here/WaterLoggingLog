@@ -1,0 +1,25 @@
+model,zone,flood_points,auc
+logistic,Bommanahalli,44,0.691
+logistic,Dasarahalli,14,0.57
+logistic,East,68,0.726
+logistic,Mahadevapura,51,0.622
+logistic,Rajarajeshwari Nagar,50,0.644
+logistic,South,63,0.777
+logistic,West,56,0.668
+logistic,Yelahanka,26,0.774
+random_forest,Bommanahalli,44,0.734
+random_forest,Dasarahalli,14,0.531
+random_forest,East,68,0.696
+random_forest,Mahadevapura,51,0.639
+random_forest,Rajarajeshwari Nagar,50,0.67
+random_forest,South,63,0.72
+random_forest,West,56,0.663
+random_forest,Yelahanka,26,0.765
+grad_boost,Bommanahalli,44,0.755
+grad_boost,Dasarahalli,14,0.526
+grad_boost,East,68,0.666
+grad_boost,Mahadevapura,51,0.632
+grad_boost,Rajarajeshwari Nagar,50,0.682
+grad_boost,South,63,0.7
+grad_boost,West,56,0.643
+grad_boost,Yelahanka,26,0.784

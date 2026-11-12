@@ -2,7 +2,10 @@
 
 EL Phase-I, SDG 9, RVCE. This repo holds the **terrain layer** (methodology step 2), the **drain graph**
 with blockage what-ifs (step 3), a placeholder **risk model** (step 4 physics), and a **dashboard with
-flood-aware rerouting**. See [docs/plan.md](docs/plan.md) for the overall plan and field-visit protocol.
+flood-aware rerouting**. It also holds the **real flood labels** and two **baseline ML models** trained on them.
+
+**Start with [docs/final_plan.md](docs/final_plan.md):** what is done, what to build next, and the schedule.
+[docs/plan.md](docs/plan.md) has the field-visit protocol.
 
 ## Run it
 
@@ -10,12 +13,21 @@ flood-aware rerouting**. See [docs/plan.md](docs/plan.md) for the overall plan a
 python -m venv .venv
 .venv\Scripts\pip install -r requirements.txt
 .venv\Scripts\python run_terrain.py
+.venv\Scripts\python run_stage1.py
+.venv\Scripts\python run_stage2.py
 .venv\Scripts\python run_network.py
 .venv\Scripts\python run_gnn_graph.py
 .venv\Scripts\python run_backtest.py
 .venv\Scripts\python run_leadtime.py
 .venv\Scripts\python server.py
 ```
+
+`run_stage1.py` and `run_stage2.py` train the baseline models on the real labels in `data/opencity`
+(399 BBMP flood points, 8,274 dated flood complaints) and the rain history in `data/rain`. They need only
+`run_terrain.py` to have run first, and no internet. Stage 1 asks where it floods (AUC 0.68 with terrain
+alone, zones held out). Stage 2 asks which ward reports flooding on which day (AUC 0.73 for rain alone,
+0.80 with ward features, tested on 2024–25). Results go to `outputs/stage1_metrics.csv` and
+`outputs/stage2_metrics.csv`. The GNN models are the next step and are not built yet.
 
 `server.py` starts the **web dashboard** at http://localhost:8000. It's a FastAPI JSON API (`/api/meta`,
 `/api/assess`, `/api/drains`) over the same pipeline, plus a hand-built Leaflet frontend in `web/`

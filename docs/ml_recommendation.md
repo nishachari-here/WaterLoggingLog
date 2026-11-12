@@ -2,6 +2,10 @@
 
 *29 October 2026*
 
+> **Superseded on 11 November 2026.** This note assumed we had only 24 flood labels. We have since found
+> real labelled data (399 BBMP flood points and 8,274 dated complaints), so a GNN can now be trained and
+> compared. Follow [final_plan.md](final_plan.md).
+
 Drop the ST-GNN from the plan, keep our physics-based model with light statistical calibration, and spend
 our effort on the site visits and the phone-in-the-car demo.
 

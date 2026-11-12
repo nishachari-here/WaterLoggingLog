@@ -17,3 +17,7 @@ streamlit==1.66.1
 streamlit-folium==0.27.4
 fastapi==0.162.0
 uvicorn==0.54.0
+scikit-learn==1.9.1
+# For the GNN models (not installed or tested yet). Install the CPU build of PyTorch first:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install torch_geometric
