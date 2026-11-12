@@ -1,0 +1,4 @@
+model,macro_roc_auc,pooled_roc_auc,macro_ap,pooled_ap,macro_top20_capture,pooled_top20_capture,macro_top20_precision,pooled_top20_precision,macro_precision,macro_recall,macro_f1
+Logistic Regression,0.6703 ± 0.0741,0.6608,0.0940 ± 0.0397,0.0865,38.43% ± 11.00%,37.13,9.87% ± 3.65%,9.9,0.0824,0.6827,0.1446
+Random Forest,0.6663 ± 0.0825,0.6598,0.1038 ± 0.0359,0.0983,38.84% ± 12.14%,38.08,10.00% ± 4.04%,10.15,0.0931,0.4614,0.1497
+GraphSAGE,0.6798 ± 0.0743,0.6734,0.1016 ± 0.0370,0.1001,41.59% ± 11.08%,41.57,10.84% ± 4.38%,11.08,0.0852,0.6336,0.1476

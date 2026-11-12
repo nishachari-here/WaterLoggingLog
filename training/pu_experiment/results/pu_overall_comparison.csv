@@ -1,0 +1,7 @@
+experiment,model,macro_top20_capture,pooled_top20_capture,macro_roc_auc_incomplete,pooled_roc_auc_incomplete,macro_ap_incomplete,pooled_ap_incomplete
+"PU-Bagging (K=5, r=1:1)",PU-Bagged LR,38.60% ± 11.00%,37.31%,0.6707 ± 0.0740,0.661,0.0947 ± 0.0405,0.0868
+"PU-Bagging (K=5, r=1:1)",PU-Bagged RF,39.51% ± 11.20%,38.85%,0.6706 ± 0.0819,0.6654,0.1050 ± 0.0372,0.1007
+"PU-Bagging (K=5, r=1:1)",PU-Bagged GraphSAGE,42.29% ± 11.69%,43.14%,0.6855 ± 0.0731,0.6759,0.1064 ± 0.0428,0.1031
+Class-Weighted (Original Benchmark),Class-Weighted LR (Baseline),38.43% ± 11.00%,37.13%,0.6703 ± 0.0741,0.6608,0.0940 ± 0.0397,0.0865
+Class-Weighted (Original Benchmark),Class-Weighted RF (Baseline),38.84% ± 12.14%,38.08%,0.6663 ± 0.0825,0.6598,0.1038 ± 0.0359,0.0983
+Class-Weighted (Original Benchmark),Class-Weighted GraphSAGE (Baseline),41.59% ± 11.08%,41.57%,0.6798 ± 0.0743,0.6734,0.1016 ± 0.0370,0.1001

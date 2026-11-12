@@ -7,11 +7,13 @@ import time
 
 import pandas as pd
 import requests
-import truststore
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except ImportError:
+    pass
 
 import config
-
-truststore.inject_into_ssl()
 
 URL = "https://archive-api.open-meteo.com/v1/archive"
 CACHE = config.ROOT / "data" / "rain" / "rain_hourly.csv"

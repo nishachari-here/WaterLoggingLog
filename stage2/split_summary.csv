@@ -1,0 +1,4 @@
+split,ward_days,positive_ward_days,date_min,date_max,wards
+train,209484,2998,2020-02-08,2022-12-31,198
+tune,72270,808,2023-01-01,2023-12-31,198
+test,106128,2223,2024-01-01,2025-06-19,198
