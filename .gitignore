@@ -6,3 +6,4 @@ data/graph/
 export/
 cache/
 .claude/
+.DS_Store
