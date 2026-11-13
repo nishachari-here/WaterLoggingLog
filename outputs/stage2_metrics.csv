@@ -1,0 +1,8 @@
+model,auc,avg_precision,recall_at_5pct_far,within_day_auc,flood_days
+rule: 2-day rain total,0.734,0.066,0.255,0.455,53
+rain only (logistic),0.734,0.069,0.234,0.476,53
+rain only (boosting),0.71,0.062,0.194,0.476,53
+rain + soil moisture,0.718,0.063,0.222,0.487,53
+rain + ward terrain + BBMP flood points,0.799,0.106,0.319,0.704,53
+"+ drain complaints, last 30 days",0.804,0.112,0.328,0.716,53
++ soil moisture + month,0.806,0.111,0.338,0.717,53

@@ -1,0 +1,221 @@
+{
+    "zones": [
+        {
+            "id": "1",
+            "capacity": 3,
+            "adjacent": [
+                "2"
+            ]
+        },
+        {
+            "id": "2",
+            "capacity": 3,
+            "adjacent": [
+                "3",
+                "1"
+            ]
+        },
+        {
+            "id": "3",
+            "capacity": 3,
+            "adjacent": [
+                "2",
+                "4",
+                "5",
+                "r1"
+            ]
+        },
+        {
+            "id": "4",
+            "capacity": 3,
+            "adjacent": [
+                "3",
+                "6",
+                "5",
+                "r2"
+            ]
+        },
+        {
+            "id": "5",
+            "capacity": 3,
+            "adjacent": [
+                "3",
+                "4",
+                "7"
+            ]
+        },
+        {
+            "id": "6",
+            "capacity": 3,
+            "adjacent": [
+                "4",
+                "7",
+                "8",
+                "r3"
+            ]
+        },
+        {
+            "id": "7",
+            "capacity": 3,
+            "adjacent": [
+                "5",
+                "6",
+                "9"
+            ]
+        },
+        {
+            "id": "8",
+            "capacity": 3,
+            "adjacent": [
+                "6",
+                "9",
+                "10"
+            ]
+        },
+        {
+            "id": "9",
+            "capacity": 3,
+            "adjacent": [
+                "7",
+                "8"
+            ]
+        },
+        {
+            "id": "10",
+            "capacity": 3,
+            "adjacent": [
+                "r5",
+                "8",
+                "r6"
+            ]
+        },
+        {
+            "id": "11",
+            "capacity": 3,
+            "adjacent": [
+                "12",
+                "13"
+            ]
+        },
+        {
+            "id": "12",
+            "capacity": 3,
+            "adjacent": [
+                "r1",
+                "r2",
+                "11",
+                "14"
+            ]
+        },
+        {
+            "id": "13",
+            "capacity": 3,
+            "adjacent": [
+                "11",
+                "14",
+                "15"
+            ]
+        },
+        {
+            "id": "14",
+            "capacity": 3,
+            "adjacent": [
+                "12",
+                "13",
+                "16",
+                "r3"
+            ]
+        },
+        {
+            "id": "15",
+            "capacity": 3,
+            "adjacent": [
+                "13",
+                "17",
+                "16"
+            ]
+        },
+        {
+            "id": "16",
+            "capacity": 3,
+            "adjacent": [
+                "14",
+                "15",
+                "18",
+                "r4",
+                "r5"
+            ]
+        },
+        {
+            "id": "17",
+            "capacity": 3,
+            "adjacent": [
+                "15",
+                "18"
+            ]
+        },
+        {
+            "id": "18",
+            "capacity": 3,
+            "adjacent": [
+                "16",
+                "17",
+                "r6"
+            ]
+        },
+        {
+            "id": "r1",
+            "capacity": 1,
+            "adjacent": [
+                "12",
+                "3"
+            ],
+            "isRiverZone": true
+        },
+        {
+            "id": "r2",
+            "capacity": 1,
+            "adjacent": [
+                "12",
+                "4"
+            ],
+            "isRiverZone": true
+        },
+        {
+            "id": "r3",
+            "capacity": 1,
+            "adjacent": [
+                "14",
+                "6"
+            ],
+            "isRiverZone": true
+        },
+        {
+            "id": "r4",
+            "capacity": 1,
+            "adjacent": [
+                "16",
+                "6"
+            ],
+            "isRiverZone": true
+        },
+        {
+            "id": "r5",
+            "capacity": 1,
+            "adjacent": [
+                "16",
+                "10"
+            ],
+            "isRiverZone": true
+        },
+        {
+            "id": "r6",
+            "capacity": 1,
+            "adjacent": [
+                "18",
+                "10"
+            ],
+            "isRiverZone": true
+        }
+    ]
+}

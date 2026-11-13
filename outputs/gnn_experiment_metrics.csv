@@ -1,0 +1,2 @@
+model,auc,auc_lo,auc_hi,ap,recall@5%FAR,recall@5%FAR_lo,recall@5%FAR_hi,recall@1%FAR
+gnn_gcn,0.5533,0.3325,0.7409,0.0042,0.25,0.025,0.4667,0.0

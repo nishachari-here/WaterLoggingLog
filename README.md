@@ -1,0 +1,128 @@
+# Waterlogging Early-Warning for Bengaluru Flood Hotspots
+
+EL Phase-I, SDG 9, RVCE. This repo holds the **terrain layer** (methodology step 2), the **drain graph**
+with blockage what-ifs (step 3), a placeholder **risk model** (step 4 physics), and a **dashboard with
+flood-aware rerouting**. It also holds the **real flood labels** and two **baseline ML models** trained on them.
+
+**Start with [docs/final_plan.md](docs/final_plan.md):** what is done, what to build next, and the schedule.
+[docs/plan.md](docs/plan.md) has the field-visit protocol.
+
+## Run it
+
+```bash
+python -m venv .venv
+.venv\Scripts\pip install -r requirements.txt
+.venv\Scripts\python run_terrain.py
+.venv\Scripts\python run_stage1.py
+.venv\Scripts\python run_stage2.py
+.venv\Scripts\python run_network.py
+.venv\Scripts\python run_gnn_graph.py
+.venv\Scripts\python run_gnn_experiment.py
+.venv\Scripts\python run_backtest.py
+.venv\Scripts\python run_leadtime.py
+.venv\Scripts\python run_labels.py
+.venv\Scripts\python server.py
+```
+
+`run_stage1.py` and `run_stage2.py` train the baseline models on the real labels in `data/opencity`
+(399 BBMP flood points, 8,274 dated flood complaints) and the rain history in `data/rain`. They need only
+`run_terrain.py` to have run first, and no internet. Stage 1 asks where it floods (AUC 0.68 with terrain
+alone, zones held out). Stage 2 asks which ward reports flooding on which day (AUC 0.73 for rain alone,
+0.80 with ward features, tested on 2024–25). Results go to `outputs/stage1_metrics.csv` and
+`outputs/stage2_metrics.csv`. A first GNN experiment (`run_gnn_experiment.py`, a GCN on a spatial hotspot
+graph) scores AUC 0.55 on the same label table and does **not** beat these baselines
+(`outputs/gnn_experiment_metrics.csv`); the Stage 1 GraphSAGE and ward-graph GNN are still to do.
+
+`server.py` starts the **web dashboard** at http://localhost:8000. It's a FastAPI JSON API (`/api/meta`,
+`/api/drains`, `/api/assess`, `/api/replay`, `/health`) over the same pipeline, plus a React + Leaflet
+frontend in `frontend/DDRM/` (OpenStreetMap tiles, light and dark themes, phone layout). Build it once with
+`cd frontend\DDRM && npm install && npm run build`; `server.py` serves the built `dist/`. The dashboard has
+three modes: a **scenario** (rain sliders, bias correction, blockage, culvert picker), the **live forecast**,
+and an hour-by-hour **storm replay** of any archived date (play/pause over a 24-bar timeline). A **Use my
+location as start** button snaps the phone's GPS fix to the nearest known place. The older Streamlit version
+still works with `.venv\Scripts\streamlit run app.py`.
+
+The server binds to `127.0.0.1:8000` by default; set `HOST` and `PORT` to expose it on a LAN. Browsers only
+allow phone GPS on secure origins, so testing GPS from a phone needs HTTPS (or `localhost` via port
+forwarding) — plain-HTTP LAN addresses will refuse the location prompt.
+
+`run_backtest.py` scores the methods on 2022–2025 hotspot-days against 24 news-documented flood days
+(`data/events/flood_events.csv`). `run_leadtime.py` repeats the test on forecasts issued 0–3 days ahead
+(2024–2025) and counts the alerts the dashboard would have raised. Results and caveats are in
+[docs/backtest.md](docs/backtest.md).
+
+`run_labels.py` builds the shared **hotspot-day label table** (`outputs/label_table.csv`): rain features,
+the nearest GNN graph node's terrain features, the risk.py threshold, the physics ratio and the 0/1 flood
+label. It also runs leave-one-hotspot-out logistic regressions and compares them with the rain rule and the
+terrain-only baseline. See [docs/label_table.md](docs/label_table.md) for the rain-window choice, snap
+distances and results. The GNN branch should reuse this table rather than rebuilding it.
+
+`run_terrain.py` downloads two Copernicus GLO-30 tiles (~80 MB, public AWS bucket, no login) and takes about
+a minute. `run_network.py` pulls OSM roads, drains and lakes through the Overpass API (a few minutes the first
+time, then cached). All of it is free, with no API keys.
+`run_gnn_graph.py` rebuilds the DEM drainage network without adding hand-listed hotspot nodes, downloads
+the full drivable street graph on its first run, and writes a combined typed graph plus node/edge CSVs under
+`data/processed/`. Road nodes within 75 m of drainage nodes get bidirectional spatial connector edges;
+these indicate proximity, not verified culvert or hydraulic connections.
+
+## Network layer and dashboard
+
+| File | What it does |
+|---|---|
+| `pipeline/osm.py` | Arterial road graph for routing plus a full drivable graph for graph-learning candidates, 3k OSM waterways, 3.9k water bodies |
+| `pipeline/drain_graph.py` | Directed drainage graph: DEM drainage lines merged into segments, each tagged with OSM drain overlap, lake, and the arterial roads that cross it (culverts). Nodes come from the DEM network, not the hotspot CSV. |
+| `pipeline/combined_graph.py` | Namespaced road and drainage nodes, typed edges, proximity connectors and sampled DEM features; exports pickle and CSVs for ML preprocessing. |
+| `pipeline/risk.py` | Rational-method runoff vs capacity per segment, giving a per-hotspot rain threshold, the bottleneck segment (min-cut on the flow tree), what-if blocking, and a "clear these first" ranking. Field log rows override the placeholder capacity. |
+| `pipeline/routing.py` | Red hotspots are 300 m no-go zones and amber ones 200 m slow zones (×4 travel time). Dijkstra on OSMnx/NetworkX gives the usual route and the flood-aware route. |
+| `pipeline/rain.py` | Open-Meteo hourly forecast per hotspot: peak for each of the next four 24 h windows |
+| `app.py` | Streamlit dashboard. **Red alert / amber / green** for the next 24 h, plus **watch** when the forecast 1–3 days out reaches a hotspot's threshold (dashed orange ring, outlook column). Also: rain sliders (today and later) or live forecast, blockage slider, culvert picker, route picker, map, threshold and priority tables. |
+| `server.py` + `frontend/DDRM/` | FastAPI API and React/Leaflet dashboard: scenario, live forecast and 24 h **storm replay**, **phone GPS** start point, flood-aware rerouting, and the same threshold/priority tables. Replay re-scores archived hourly rain through the current model, scaled by the empirical bias factor. |
+| `archive/legacy-ddrm/` | The earlier DDRM Node/Express + C++ demo, kept for reference only; nothing in the current app imports it. |
+
+**Placeholder capacities.** Until field data arrives, a segment draining 1 km² is assumed to cope with
+50 mm/h, and capacity scales with A^0.85 (`I_REF`, `EXPONENT` in `risk.py`). This gives thresholds of
+19–45 mm/h at 20% blockage. To replace them, copy `data/field/field_log_template.csv` to
+`data/field/field_log.csv` and fill one row per measured drain. Set `local_catchment_km2` to the area that
+reaches that roadside drain; if it's left blank, it defaults to the smaller of the DEM catchment and 0.5 km².
+
+**Not modelled.** Water spreading along streets, pump stations in underpasses, and lake overflow. A road is
+blocked by distance to a red hotspot, not by simulated flood extent.
+
+## What it does
+
+| Step | File | Output |
+|---|---|---|
+| 1. DEM | `pipeline/dem.py` | Mosaic, clip and reproject to a 30 m UTM 43N grid → `data/processed/dem_utm.tif` |
+| 2. Terrain | `pipeline/hydrology.py` | Depression depth, slope, D8 flow direction and accumulation, upstream area, TWI, HAND, TPI (300 m, 1 km), drainage lines |
+| 3. Hotspots | `pipeline/hotspots.py` | Features per hotspot, upstream catchment polygon, terrain-only baseline vs 600 random control points |
+| 4. Maps | `pipeline/maps.py` | `outputs/terrain_overview.png`, `outputs/terrain_map.html` (Leaflet + OSM, no API key) |
+| Field bridge | `pipeline/capacity.py` | Manning drain capacity, rational-method runoff, per-hotspot critical rain intensity |
+
+Outputs in `outputs/`:
+- `hotspot_terrain_features.csv`: one row per hotspot. `*_pctl` columns give the percentage of random control locations that look less flood-prone than the hotspot on that feature.
+- `terrain_baseline_summary.csv`: AUC of each terrain feature at separating hotspots from controls.
+- `hotspot_catchments.geojson`: area draining to each hotspot (the `A` in Q = C·i·A).
+
+`run_gnn_graph.py` writes `data/processed/gnn_graph.pkl`, `gnn_graph_nodes.csv`, and
+`gnn_graph_edges.csv`. These are a spatial graph and static node features, **not a training dataset**:
+the repository does not yet contain complete time-indexed flood labels or graph-wide rainfall features
+needed to train or validate a spatio-temporal GNN.
+
+## First results (12 original hotspots, 600 controls)
+
+The terrain-only score separates hotspots from random spots with **AUC 0.71**. The strongest single
+features are depression depth (0.83) and local low-spot TPI-300 (0.74). Valley-floor hotspots score
+93–100 (Silk Board, Madiwala, Koramangala, KR Circle, Manyata). **Underpasses do not show up** (HAL–Marathahalli 47,
+Hebbal 50, Kadubeesanahalli 59), because a 30 m surface model cannot see a man-made dip under a road.
+That gap is why we take field measurements, and it is the case for the full model over a terrain-only map.
+These results describe the original 12 locations only. The terrain outputs have since been regenerated
+for 18 listed locations; use `outputs/terrain_baseline_summary.csv` for that run's metrics. The six added
+locations are approximate candidates, not field-verified positives. The original metrics are indicative,
+not a result to report as final.
+
+## Known limits
+
+- Copernicus GLO-30 is a **surface** model (it includes buildings and trees). FABDEM (bare-earth, free for research) is a drop-in upgrade.
+- Hotspot coordinates in `data/hotspots.csv` are approximate apart from MG Road. Replace them with GPS fixes from the field visit.
+- The six newly added candidate locations are provisional monitoring points, not field-verified flood reports; confirm their exact low points and flood history before treating them as validated hotspots.
+- Snapping looks for the highest-accumulation cell within a 150 m square window, so the snap distance can reach ~210 m (see `snap_dist_m`).

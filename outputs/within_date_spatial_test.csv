@@ -1,0 +1,4 @@
+metric,score,estimate,n_dates,ci95_low,ci95_high,null_mean,null95_low,null95_high,p_two_sided
+mean_date_auc,physics_ratio,0.5521853146853146,13,0.47657342657342655,0.656064248251748,,,,
+mean_date_auc,logit_rain_physics,0.4903409090909091,13,0.3339051573426573,0.6454545454545454,,,,
+within_date_threshold_shuffle,rain_peak_1h / shuffled i_crit_mm_h,0.5521853146853146,13,,,0.45497469405594404,0.35974213286713286,0.5506725305944055,0.46976511744127936

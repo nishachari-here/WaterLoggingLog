@@ -1,0 +1,13 @@
+id,i_crit_mm_h,i_crit_reconstructed_mm_h,threshold_source,drain_node,drain_snap_m,bottleneck_area_km2
+silk_board,22.4,22.36866743393164,risk.py (leadtime_events.csv),drain:1431560,91.6,48.17250061035156
+hebbal,30.7,30.773003679002716,risk.py (leadtime_events.csv),drain:811143,420.1,5.744699954986572
+kadubeesanahalli,41.115195202020296,41.115195202020296,risk.py formula on GNN drain graph,drain:1314774,335.3,0.8324999809265137
+hal_marathahalli,24.366144651068563,24.366144651068563,risk.py formula on GNN drain graph,drain:1202122,804.2,27.2367000579834
+kr_circle,38.60819536636562,38.60819536636562,risk.py formula on GNN drain graph,drain:1102258,382.7,1.2662999629974365
+bellandur,24.494669405682487,24.494669405682487,risk.py formula on GNN drain graph,drain:1383492,589.5,26.29800033569336
+madiwala,22.4,22.36866743393164,risk.py (leadtime_events.csv),drain:1418383,305.5,48.17250061035156
+koramangala,42.79752225825693,42.79752225825693,risk.py formula on GNN drain graph,drain:1342327,66.2,0.6371999979019165
+sai_layout,31.8,31.801244838463326,risk.py (leadtime_events.csv),drain:817227,431.1,4.614299774169922
+manyata,19.0,18.95914981913508,risk.py (leadtime_events.csv),drain:738085,229.3,145.0800018310547
+kogilu,28.4,20.958302417035124,risk.py (leadtime_events.csv),drain:432276,389.2,74.3634033203125
+mg_road,38.550898259658126,38.550898259658126,risk.py formula on GNN drain graph,drain:1118400,408.4,1.2789000272750854

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bengaluru Waterlogging Early-Warning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="progress" class="progress" aria-hidden="true"></div>
+  <div id="map" class="map" role="application" aria-label="Map of Bengaluru flood hotspots"></div>
+
+  <header class="statusbar card" aria-live="polite">
+    <div class="stat red"><span class="dot"></span><div><b id="k-red">–</b><small>Red alert</small></div></div>
+    <div class="stat amber"><span class="dot"></span><div><b id="k-amber">–</b><small>Amber</small></div></div>
+    <div class="stat green"><span class="dot"></span><div><b id="k-green">–</b><small>Clear</small></div></div>
+    <div class="stat watch"><span class="dot ring"></span><div><b id="k-watch">–</b><small>Watch 1–3 d</small></div></div>
+    <div class="stat rule" title="Baseline: one city-wide rule that alerts every hotspot when rain reaches 40 mm/h">
+      <div><b id="k-rule">–</b><small>40 mm/h rule</small></div>
+    </div>
+  </header>
+
+  <aside class="panel left card" aria-label="Controls">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16 3c4.6 6 9 11.4 9 16.2A9 9 0 0 1 7 19.2C7 14.4 11.4 9 16 3z" fill="currentColor"/>
+        <path d="M11.5 20.5c1.6 1.6 3.4 1.6 5 0s3.4-1.6 5 0" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-text">
+        <h1>Waterlogging Early-Warning</h1>
+        <p>Bengaluru flood hotspots</p>
+      </div>
+      <button id="theme" class="icon-btn" aria-label="Toggle dark mode" title="Toggle theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="currentColor"/></svg>
+      </button>
+    </div>
+
+    <div class="scroll">
+      <section>
+        <h2>Rain</h2>
+        <div class="segmented" role="tablist" aria-label="Rain source">
+          <button role="tab" data-mode="scenario" aria-selected="true">Scenario</button>
+          <button role="tab" data-mode="live" aria-selected="false">Live forecast</button>
+        </div>
+
+        <div id="scenario-controls">
+          <label class="field">
+            <span class="field-head">Rain today <output id="o-today"></output></span>
+            <input id="rain-today" type="range" min="0" max="100" step="5" value="30">
+            <span class="intensity" id="i-today"></span>
+          </label>
+          <label class="field">
+            <span class="field-head">Rain expected later <output id="o-later"></output></span>
+            <input id="rain-later" type="range" min="0" max="100" step="5" value="0">
+          </label>
+          <div class="field">
+            <span class="field-head">Arriving in</span>
+            <div class="chips" id="later-day" role="radiogroup" aria-label="Days ahead">
+              <button data-day="1" role="radio" aria-checked="false">1 day</button>
+              <button data-day="2" role="radio" aria-checked="true">2 days</button>
+              <button data-day="3" role="radio" aria-checked="false">3 days</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="live-controls" hidden>
+          <div class="forecast">
+            <div class="forecast-head">
+              <span id="fc-title">Fetching forecast…</span>
+              <span class="muted" id="fc-time"></span>
+            </div>
+            <div class="bars" id="fc-bars"></div>
+            <p class="hint" id="fc-note"></p>
+          </div>
+          <label class="toggle">
+            <input id="bias" type="checkbox" checked>
+            <span class="switch"></span>
+            <span>Correct model smoothing <b id="bias-x"></b></span>
+          </label>
+        </div>
+      </section>
+
+      <section>
+        <h2>Drains</h2>
+        <label class="field">
+          <span class="field-head">Typical blockage <output id="o-block"></output></span>
+          <input id="blockage" type="range" min="0" max="90" step="5" value="20">
+        </label>
+        <label class="field">
+          <span class="field-head">What if this culvert is blocked?</span>
+          <select id="culvert"><option value="">None</option></select>
+        </label>
+        <label class="field" id="culvert-block-field" hidden>
+          <span class="field-head">Its blockage <output id="o-cblock"></output></span>
+          <input id="culvert-block" type="range" min="0" max="100" step="10" value="90">
+        </label>
+      </section>
+
+      <section>
+        <h2>Route</h2>
+        <div class="route-pick">
+          <div class="rp-line" aria-hidden="true"><i class="a">A</i><span></span><i class="b">B</i></div>
+          <div class="rp-fields">
+            <select id="origin" aria-label="From"></select>
+            <select id="dest" aria-label="To"></select>
+          </div>
+          <button id="swap" class="icon-btn" aria-label="Swap start and destination" title="Swap">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v13m0 0-3-3m3 3 3-3M17 20V7m0 0-3 3m3-3 3 3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Layers</h2>
+        <label class="toggle"><input type="checkbox" data-layer="zones" checked><span class="switch"></span><span>Flood zones</span></label>
+        <label class="toggle"><input type="checkbox" data-layer="routes" checked><span class="switch"></span><span>Routes</span></label>
+        <label class="toggle"><input type="checkbox" data-layer="drains"><span class="switch"></span><span>Drain network</span></label>
+      </section>
+
+      <p class="footnote">Drain capacities are placeholder values until field measurements replace them.
+        Rain from Open-Meteo. Map data © OpenStreetMap contributors.</p>
+    </div>
+  </aside>
+
+  <aside class="panel right card" aria-label="Results">
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="route" aria-selected="true">Route</button>
+      <button role="tab" data-tab="hotspots" aria-selected="false">Hotspots</button>
+      <button role="tab" data-tab="priorities" aria-selected="false">Clear first</button>
+    </div>
+    <div class="scroll">
+      <div id="tab-route" class="tab"></div>
+      <div id="tab-hotspots" class="tab" hidden></div>
+      <div id="tab-priorities" class="tab" hidden></div>
+    </div>
+  </aside>
+
+  <div class="legend card" aria-hidden="true">
+    <span><i class="lg-dot red"></i>Red</span>
+    <span><i class="lg-dot amber"></i>Amber</span>
+    <span><i class="lg-dot green"></i>Clear</span>
+    <span><i class="lg-dot watch"></i>Watch</span>
+    <span><i class="lg-line usual"></i>Usual route</span>
+    <span><i class="lg-line safe"></i>Suggested</span>
+  </div>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

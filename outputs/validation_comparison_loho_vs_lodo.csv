@@ -1,0 +1,19 @@
+Scheme,Model,AUC,AP,Recall@5%,Recall@1%
+LOHO (Hold out hotspot),rain_peak_1h,"0.772 [0.633, 0.883]",0.009,"0.375 [0.125, 0.667]",0.000
+LOHO (Hold out hotspot),terrain_only,"0.490 [0.310, 0.625]",0.002,"0.000 [0.000, 0.000]",0.000
+LOHO (Hold out hotspot),terrain_x_rain,"0.770 [0.633, 0.878]",0.008,"0.333 [0.087, 0.572]",0.042
+LOHO (Hold out hotspot),physics_ratio,"0.782 [0.637, 0.894]",0.012,"0.458 [0.194, 0.722]",0.042
+LOHO (Hold out hotspot),logit_rain,"0.763 [0.599, 0.884]",0.010,"0.458 [0.174, 0.750]",0.042
+LOHO (Hold out hotspot),logit_terrain,"0.521 [0.397, 0.650]",0.002,"0.000 [0.000, 0.000]",0.000
+LOHO (Hold out hotspot),logit_rain_terrain,"0.750 [0.580, 0.888]",0.010,"0.375 [0.143, 0.643]",0.083
+LOHO (Hold out hotspot),logit_rain_physics,"0.780 [0.629, 0.895]",0.014,"0.458 [0.187, 0.750]",0.083
+LOHO (Hold out hotspot),logit_all,"0.751 [0.572, 0.893]",0.011,"0.375 [0.138, 0.632]",0.042
+LODO (Hold out date),rain_peak_1h,"0.772 [0.633, 0.883]",0.009,"0.375 [0.125, 0.667]",0.000
+LODO (Hold out date),terrain_only,"0.490 [0.310, 0.625]",0.002,"0.000 [0.000, 0.000]",0.000
+LODO (Hold out date),terrain_x_rain,"0.770 [0.633, 0.878]",0.008,"0.333 [0.087, 0.572]",0.042
+LODO (Hold out date),physics_ratio,"0.782 [0.637, 0.894]",0.012,"0.458 [0.194, 0.722]",0.042
+LODO (Hold out date),logit_rain,"0.761 [0.607, 0.879]",0.009,"0.333 [0.097, 0.684]",0.083
+LODO (Hold out date),logit_terrain,"0.504 [0.367, 0.618]",0.016,"0.042 [0.000, 0.132]",0.042
+LODO (Hold out date),logit_rain_terrain,"0.708 [0.539, 0.862]",0.011,"0.292 [0.125, 0.562]",0.125
+LODO (Hold out date),logit_rain_physics,"0.752 [0.595, 0.888]",0.013,"0.458 [0.187, 0.750]",0.083
+LODO (Hold out date),logit_all,"0.681 [0.482, 0.860]",0.011,"0.458 [0.167, 0.733]",0.083

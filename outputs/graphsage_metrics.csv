@@ -1,0 +1,2 @@
+model,auc,average_precision,n,positives,hotspots
+graphsage_hotspot_loho,0.5343016342845579,0.004489956730504074,13200,24,12

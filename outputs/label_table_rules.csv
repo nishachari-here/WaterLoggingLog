@@ -1,0 +1,5 @@
+rule,hits,floods,recall,false_alarm_hotspot_days,false_alarm_rate
+40 mm/h (raw),0,24,0.0,0,0.0
+40 mm/h (bias-corrected),0,24,0.0,7,0.0005
+physics threshold (raw),0,24,0.0,0,0.0
+physics threshold (bias-corrected),0,24,0.0,26,0.002

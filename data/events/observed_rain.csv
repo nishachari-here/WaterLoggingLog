@@ -1,0 +1,6 @@
+date,lat,lon,place,reported_mm,window,confidence,source
+2022-09-05,12.9569,77.7011,Marathahalli,129,overnight to 03:15,high,https://www.deccanherald.com/city/traffic-at-a-standstill-as-bengaluru-inundated-amid-heavy-rains-poor-infrastructure-in-focus-1142277.html
+2023-06-13,12.9592,77.6974,Marathahalli,86,night of 12 Jun,high,https://www.thenewsminute.com/karnataka/bengaluru-experiences-waterlogging-again-after-several-hours-rain-178434
+2023-06-13,12.9399,77.7499,Varthur,93,night of 12 Jun,high,https://www.thenewsminute.com/karnataka/bengaluru-experiences-waterlogging-again-after-several-hours-rain-178434
+2024-10-22,13.0780,77.5750,GKVK (IMD station),186.2,daily,high,https://www.etvbharat.com/en/!state/heavy-rains-flood-bengaluru-enn24102202323
+2024-10-21,12.9352,77.6245,Koramangala,88.2,daily,medium,https://www.deccanherald.com/amp/story/india%2Fkarnataka%2Fbengaluru%2Fbengaluru-rains-waterlogging-slow-moving-traffic-tree-falls-disrupt-normal-life-as-imd-issues-orange-alert-3241096

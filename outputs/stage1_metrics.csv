@@ -1,0 +1,4 @@
+model,mean_zone_auc,min_zone_auc,max_zone_auc,pooled_auc,avg_precision,base_rate,flood_points_in_top20pct_area
+logistic,0.684,0.57,0.777,0.692,0.166,0.085,0.46
+random_forest,0.677,0.531,0.765,0.684,0.171,0.085,0.454
+grad_boost,0.673,0.526,0.784,0.684,0.172,0.085,0.468
